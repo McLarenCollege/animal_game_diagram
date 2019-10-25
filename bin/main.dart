@@ -1,171 +1,101 @@
-main() {}
+import 'dart:io';
+import 'data.dart';
 
-/// Sample Output
-// Think of an animal
-// Is it a duck?
-// No
-// Oops - looks like I need to improve.
-// What is the animal?
-// A monkey
-// What question would distinguish between a duck and A monkey?
-// Can it fly?
-// For A monkey, is the answer yes or no?
-// No
-// Thanks for helping me to improve!
-//
-// Want to play again?
-// Yes
-// Think of an animal
-// Can it fly?
-// Yes
-// Is it a duck?
-// No
-// Oops - looks like I need to improve.
-// What is the animal?
-// Parrot
-// What question would distinguish between a duck and Parrot?
-// Can it swim?
-// For Parrot, is the answer yes or no?
-// No
-// Thanks for helping me to improve!
-//
-// Want to play again?
-// Yes
-// Think of an animal
-// Can it fly?
-// No
-// Is it A monkey?
-// Yes
-// Yay!  I got it!
-//
-// Want to play again?
-// Yes
-// Think of an animal
-// Can it fly?
-// No
-// Is it A monkey?
-// No
-// Oops - looks like I need to improve.
-// What is the animal?
-// Dog
-// What question would distinguish between A monkey and Dog?
-// Can it climb trees?
-// For Dog, is the answer yes or no?
-// no
-// Thanks for helping me to improve!
-//
-// Want to play again?
-// yes
-// Think of an animal
-// Can it fly?
-// No
-// Can it climb trees?
-// No
-// Is it Dog?
-// No
-// Oops - looks like I need to improve.
-// What is the animal?
-// a cow
-// What question would distinguish between Dog and a cow?
-// Is it taller than 1 meter?
-// For a cow, is the answer yes or no?
-// yes
-// Thanks for helping me to improve!
-//
-// Want to play again?
-// yes
-// Think of an animal
-// Can it fly?
-// No
-// Can it climb trees?
-// Yes
-// Is it A monkey?
-// No
-// Oops - looks like I need to improve.
-// What is the animal?
-// a cat
-// What question would distinguish between A monkey and a cat?
-// Is it a pet?
-// For a cat, is the answer yes or no?
-// yes
-// Thanks for helping me to improve!
-//
-// Want to play again?
-// no
+class Node {
+  Node yes;
+  Node no;
+  String question;
+  String animal;
+
+  Node({this.animal, this.question, this.yes, this.no});
+}
 
 
-//In Class Run Through
-// Think of animal
-// Is it a duck?
-/// no
-// improve me
-// What is the animal
-/// Tiger
-// Distinguishing question b/w tiger and duck
-/// Can it Fly?
-// For Tiger is the answer yes/no?
-/// No
 
-// Think of an Animal
-// Can it fly?
-/// yes
-// Is it a duck?
-/// no
-// improve me
-// What is the animal
-/// Eagle
-// improving question
-/// Is it a predatory animal
-// for eagle is it yes or no
-/// yes
+startTheGame() {
+  Node head = Node();
+  head.question = 'Can you fly';
+  head.yes = Node();
+  head.no = Node();
+  head.yes.animal = 'duck';
+  head.no.animal = 'monkey';
+
+  runningTheGame(head);
+}
+
+runningTheGame(Node current) {
+
+    if (current.animal == null) {
+      print(current.question);
+      String input1 = stdin.readLineSync();
+      if(input1 == 'y'){
+        current = current.yes;
+        runningTheGame(current);
+      }
+      else{
+        current = current.no;
+        runningTheGame(current);
+      }
+    } else {
+      print('is it ${current.animal} ?');
+      if(stdin.readLineSync() == 'n'){
+        print('what is your animal? ');
+        String animal = stdin.readLineSync();
+        print('distinctive ques? for which its true for $animal ? ');
+        String question = stdin.readLineSync();
+        Node current = Node();
+        String wrongAnimal = current.animal;
+        current.yes = Node();
+        current.no = Node();
+        current.question = question;
+        current.yes.animal = animal;
+        current.no.animal = wrongAnimal;
+      }
+      else {
+        print('completed.');
+      }
+    }
+    return current;
+
+  }
+
+main(){
+  Node head = Node(question: 'Can you fly?');
+  head.yes.animal = 'duck';
+  head.no.animal = 'monkey';
+
+  print('think of an animal');
+  Node node = head;
+  while(node.question != null){
+    print(node.question);
+    if(stdin.readLineSync() == 'y'){
+      node = node.yes;
+    }
+    else {
+      node = node.no;
+    }
+  }
+  print('is it a ${node.animal}');
+  if(stdin.readLineSync() == 'n'){
+    
+  }
+
+}
+//main() {
+//  Map<String,dynamic> json =  {
+//  "data": "Can you fly",
+//  "yes": {
+//  "data": "duck "
+//  },
+//  "no": {
+//  "data": "monkey "
+//  }};
+//  Questions questionsData = Questions.fromJson(json);
 //
-// Think of an Animal
-// Can it fly?
-/// no
-// Is it a tiger?
-/// no
-// Which animal?
-/// Elephant
-// distinguish b/w elep and tiger
-/// Is it herbivorous?
-// is the answer for elephant yes/no
-/// yes
-
-// Think of an Animal
-// Can it fly?
-/// no
-// Is it herbivorous?
-/// yes
-// Elephant is it?
-/// no
-// which one it is imrpve me
-/// Cow
-// distinguish b/w elephant and cow
-/// does it have trunk
-// for cow is it yes or no
-/// no
-
-// Think of animal
-//  Can it fly?
-/// yes
-// Is it a predator?
-/// yes
-// is it a eagle?
-/// no
-// improve me
-/// bat
-// distinguish question bat and eagle
-/// Is it nocturnal
-// yes or no for bat
-/// yes
-
-// Think of animal
-//  Can it fly?
-/// yes
-// Is it a predator?
-/// yes
-// is it nocturnal?
-/// no
-// is it eagle
-/// yes
-// YAYYY
+//
+//
+//
+//
+//
+//  startTheGame();
+//}
