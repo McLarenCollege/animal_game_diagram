@@ -1,101 +1,84 @@
 import 'dart:io';
 import 'data.dart';
 
-class Node {
+class Node{
+  String question;
   Node yes;
   Node no;
-  String question;
-  String animal;
 
-  Node({this.animal, this.question, this.yes, this.no});
+  Node({this.question,this.yes,this.no});
+
+  getQuestion(){
+    return question;
+  }
+
+  bool isLast(){
+    return yes == null && no == null ? true : false;
+  }
+
+  addYes(Node givenYes){
+    yes = givenYes;
+  }
+
+  addNo(Node givenNo){
+    no = givenNo;
+  }
+
+  addQuestion(String givenQuestion){
+    question = givenQuestion;
+  }
+
 }
 
+class AnimalGame{
+  Node root = Node(question:'duck');
 
+  bool playGame(){
+    Node head = root;
 
-startTheGame() {
-  Node head = Node();
-  head.question = 'Can you fly';
-  head.yes = Node();
-  head.no = Node();
-  head.yes.animal = 'duck';
-  head.no.animal = 'monkey';
-
-  runningTheGame(head);
-}
-
-runningTheGame(Node current) {
-
-    if (current.animal == null) {
-      print(current.question);
-      String input1 = stdin.readLineSync();
-      if(input1 == 'y'){
-        current = current.yes;
-        runningTheGame(current);
-      }
-      else{
-        current = current.no;
-        runningTheGame(current);
-      }
-    } else {
-      print('is it ${current.animal} ?');
-      if(stdin.readLineSync() == 'n'){
-        print('what is your animal? ');
-        String animal = stdin.readLineSync();
-        print('distinctive ques? for which its true for $animal ? ');
-        String question = stdin.readLineSync();
-        Node current = Node();
-        String wrongAnimal = current.animal;
-        current.yes = Node();
-        current.no = Node();
-        current.question = question;
-        current.yes.animal = animal;
-        current.no.animal = wrongAnimal;
+    while(!head.isLast()){
+      print(root.question);
+      String reply = stdin.readLineSync();
+      if(reply == 'yes'){
+        head = head.yes;
       }
       else {
-        print('completed.');
+        head = head.no;
       }
     }
-    return current;
 
-  }
+    print('is it ${head.question} ?');
 
-main(){
-  Node head = Node(question: 'Can you fly?');
-  head.yes.animal = 'duck';
-  head.no.animal = 'monkey';
+    String finalReply = stdin.readLineSync();
 
-  print('think of an animal');
-  Node node = head;
-  while(node.question != null){
-    print(node.question);
-    if(stdin.readLineSync() == 'y'){
-      node = node.yes;
+    if(finalReply != 'yes'){
+      print('what is your animal? ');
+      String animal = stdin.readLineSync();
+      print('question thats true about $animal and false about ${head.question}');
+      String newQuestion = stdin.readLineSync();
+      head.yes = Node(question: animal,yes:null,no:null);
+      head.no = Node(question: head.question,yes: null,no: null);
+      head.addQuestion(newQuestion);
+    }
+
+    print('play again? ');
+    if(stdin.readLineSync() != 'yes'){
+      return true;
     }
     else {
-      node = node.no;
+      return false;
     }
   }
-  print('is it a ${node.animal}');
-  if(stdin.readLineSync() == 'n'){
-    
-  }
+
 
 }
-//main() {
-//  Map<String,dynamic> json =  {
-//  "data": "Can you fly",
-//  "yes": {
-//  "data": "duck "
-//  },
-//  "no": {
-//  "data": "monkey "
-//  }};
-//  Questions questionsData = Questions.fromJson(json);
-//
-//
-//
-//
-//
-//
-//  startTheGame();
-//}
+
+void main(){
+
+  AnimalGame game = AnimalGame();
+  bool isComplete = false;
+
+  while(!isComplete){
+    isComplete = game.playGame();
+  }
+}
