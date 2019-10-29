@@ -16,13 +16,13 @@ class Node{
     return yes == null && no == null ? true : false;
   }
 
-  addYes(Node givenYes){
-    yes = givenYes;
-  }
-
-  addNo(Node givenNo){
-    no = givenNo;
-  }
+//  addYes(Node givenYes){
+//    yes = givenYes;
+//  }
+//
+//  addNo(Node givenNo){
+//    no = givenNo;
+//  }
 
   addQuestion(String givenQuestion){
     question = givenQuestion;
@@ -37,7 +37,7 @@ class AnimalGame{
     Node head = root;
 
     while(!head.isLast()){
-      print(root.question);
+      print(head.question);
       String reply = stdin.readLineSync();
       if(reply == 'yes'){
         head = head.yes;
