@@ -54,11 +54,20 @@ class AnimalGame{
     if(finalReply != 'yes'){
       print('what is your animal? ');
       String animal = stdin.readLineSync();
-      print('question thats true about $animal and false about ${head.question}');
+      print('question that distinguishes $animal from ${head.question}');
       String newQuestion = stdin.readLineSync();
-      head.yes = Node(question: animal,yes:null,no:null);
-      head.no = Node(question: head.question,yes: null,no: null);
-      head.addQuestion(newQuestion);
+      print('is it true for $animal ? ');
+      if(stdin.readLineSync() == 'yes'){
+        head.yes = Node(question: animal);
+        head.no = Node(question: head.question);
+        head.addQuestion(newQuestion);
+      }
+      else{
+        head.no = Node(question: animal);
+        head.yes = Node(question: head.question);
+        head.addQuestion(newQuestion);
+      }
+
     }
 
     print('play again? ');
