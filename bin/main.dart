@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'data.dart';
 
 class Node{
   String question;
